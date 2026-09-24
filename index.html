@@ -340,13 +340,13 @@ body.flash::after {
   gap: 12px;
   color: var(--muted);
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 9px;
-  letter-spacing: 0.12em;
+  font-size: 12px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .readout-top strong {
   color: var(--cyan);
-  font-size: 10px;
+  font-size: 15px;
   letter-spacing: 0.08em;
 }
 .phase-track {
@@ -355,13 +355,16 @@ body.flash::after {
   gap: 4px;
 }
 .phase-step {
-  padding: 5px 6px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  color: rgba(255, 255, 255, 0.35);
-  background: rgba(255, 255, 255, 0.025);
+  min-height: 38px;
+  padding: 9px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.04);
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 8px;
-  letter-spacing: 0.08em;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
   text-align: center;
 }
 .phase-step.is-done {
@@ -376,14 +379,13 @@ body.flash::after {
   box-shadow: 0 0 14px rgba(255, 209, 102, 0.3);
 }
 .readout-message {
-  min-height: 14px;
+  min-height: 24px;
   overflow: hidden;
   color: var(--text);
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 10px;
-  line-height: 1.4;
+  font-size: 13px;
+  line-height: 1.45;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .toaster-wrap {
   position: relative;
@@ -654,6 +656,8 @@ body.flash::after {
   --toast-color: var(--gold);
   --toast-accent: var(--gold);
   --toast-deep: #b74c25;
+  --result-drop: 270px;
+  --eject-rise: -225px;
   position: absolute;
   top: 61px;
   left: 50%;
@@ -785,11 +789,11 @@ body.flash::after {
 .outcome-strip {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: 150px minmax(0, 1fr) auto;
-  gap: 14px;
+  grid-template-columns: 170px minmax(0, 1fr) 260px;
+  gap: 16px;
   align-items: center;
-  min-height: 68px;
-  padding: 11px 13px;
+  min-height: 78px;
+  padding: 13px 15px;
   border: 1px solid rgba(255, 255, 255, 0.13);
   background: linear-gradient(90deg, rgba(143, 107, 255, 0.1), rgba(255, 255, 255, 0.025));
   box-shadow: inset 3px 0 var(--violet);
@@ -802,20 +806,20 @@ body.flash::after {
 }
 .outcome-label strong {
   color: var(--gold);
-  font-size: 10px;
+  font-size: 13px;
 }
 .outcome-name {
   overflow: hidden;
   color: var(--text);
-  font-size: 14px;
+  font-size: 17px;
   letter-spacing: -0.01em;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .outcome-meta {
-  max-width: 230px;
+  max-width: 260px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.4;
   text-align: right;
 }
@@ -1224,15 +1228,14 @@ input[type="range"]::-moz-range-thumb {
 @keyframes toast-eject {
   0% { opacity: 0; transform: translate(-50%, 55px) rotate(0deg) scale(0.7); }
   18% { opacity: 1; }
-  65% { opacity: 1; transform: translate(-50%, -225px) rotate(-8deg) scale(1); }
-  78% { transform: translate(-50%, -235px) rotate(7deg) scale(1); }
-  100% { opacity: 0; transform: translate(-50%, -330px) rotate(1deg) scale(0.85); }
+  65% { opacity: 1; transform: translate(-50%, var(--eject-rise)) rotate(-8deg) scale(1); }
+  78% { transform: translate(-50%, calc(var(--eject-rise) - 10px)) rotate(7deg) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, calc(var(--eject-rise) - 105px)) rotate(1deg) scale(0.85); }
 }
 @keyframes toast-result {
-  0% { opacity: 0; transform: translate(-50%, -220px) rotate(-7deg) scale(0.82); }
+  0% { opacity: 0; transform: translate(-50%, -140px) rotate(-7deg) scale(0.82); }
   18% { opacity: 1; }
-  72% { opacity: 1; transform: translate(-50%, -225px) rotate(0deg) scale(1); }
-  100% { opacity: 0; transform: translate(-50%, -300px) rotate(3deg) scale(0.9); }
+  72%, 100% { opacity: 1; transform: translate(-50%, var(--result-drop)) rotate(0deg) scale(1); }
 }
 @keyframes result-reveal {
   0% { filter: brightness(2); transform: translateX(-8px); }
@@ -1297,41 +1300,56 @@ input[type="range"]::-moz-range-thumb {
     min-height: 650px;
   }
   .machine-stage {
-    min-height: 500px;
+    display: block;
+    min-height: 680px;
     padding: 18px 8px;
   }
   .machine-readout {
     top: 10px;
-    right: 10px;
-    left: 10px;
-    padding: 9px 10px;
+    right: 8px;
+    left: 8px;
+    padding: 12px;
+  }
+  .phase-track {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
   }
   .phase-step {
-    padding: 4px 3px;
-    font-size: 7px;
+    min-height: 42px;
+    padding: 8px 6px;
+    font-size: 11px;
   }
   .readout-message {
-    font-size: 9px;
+    font-size: 12px;
   }
   .toaster-wrap {
+    position: absolute;
+    top: 215px;
+    right: 0;
+    left: 0;
     width: min(340px, 86%);
-    margin-top: 112px;
+    margin: 0 auto;
+  }
+  .toast-piece {
+    --result-drop: 230px;
+    --eject-rise: -70px;
   }
   .outcome-strip {
     grid-template-columns: 1fr auto;
-    gap: 5px 10px;
-    padding: 9px 10px;
+    gap: 7px 10px;
+    padding: 12px;
   }
   .outcome-name {
     grid-column: 1 / -1;
     grid-row: 2;
-    font-size: 12px;
+    font-size: 15px;
     white-space: normal;
   }
   .outcome-meta {
     grid-column: 1 / -1;
     grid-row: 3;
     max-width: none;
+    font-size: 12px;
     text-align: left;
   }
   .toaster {
@@ -1403,7 +1421,7 @@ input[type="range"]::-moz-range-thumb {
   .toast-piece.result {
     animation: none;
     opacity: 1;
-    transform: translate(-50%, -225px) scale(1);
+    transform: translate(-50%, var(--result-drop)) scale(1);
   }
 }
 </style>
